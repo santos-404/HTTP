@@ -1,0 +1,6 @@
+Hello there!
+
+This is an example test written to test out our first protocol implementation.
+
+Best regards,
+    Javier
