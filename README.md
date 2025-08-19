@@ -5,8 +5,6 @@ This project is a personal exercise to understand how the HTTP protocol works by
 
 The implementation will start small: opening a TCP listener, reading raw bytes, and sending back minimal HTTP responses that can be tested with curl or a browser. From there, the plan is to expand the server to properly parse HTTP requests, handle headers, and return meaningful responses. Eventually, the idea is to serve files, manage multiple connections, and get a deeper understanding of the request/response lifecycle.
 
-Along the way, I will also reimplement some things I already know from other languages (like reading files in fixed-size chunks, as I would do in Go) but translated into C#. This will help me get comfortable with .NET while keeping the focus on networking and protocols.
-
 The project is not intended to replace existing HTTP servers or frameworks. It is purely for learning purposes, exploring how protocols work under the hood, and getting hands-on practice with low-level C# programming.
 
 ## Roadmap
