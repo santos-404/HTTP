@@ -1,4 +1,6 @@
-﻿namespace Http {
+﻿using System.Text;
+
+namespace Http {
 
     internal class Program {
 
@@ -11,7 +13,8 @@
                 int bytesRead;
 
                 while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) > 0) {
-                    Console.WriteLine($"Read {bytesRead} bytes. {BitConverter.ToString(buffer, 0, bytesRead)}");
+                    string decodedChunk = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                    Console.WriteLine($"Read {bytesRead} bytes. {decodedChunk}");
                 }
 
             } catch (Exception e) {
