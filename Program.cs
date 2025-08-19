@@ -11,10 +11,23 @@ namespace Http {
 
                 byte[] buffer = new byte[8];
                 int bytesRead;
+                string line = ""; 
 
                 while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) > 0) {
-                    string decodedChunk = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    Console.WriteLine($"Read {bytesRead} bytes. {decodedChunk}");
+
+                    int i = Array.IndexOf(buffer, (byte)'\n', 0, bytesRead);
+                    if (i != -1) {
+                        string start = Encoding.UTF8.GetString(buffer, 0, i);
+                        line += start;
+
+                        Console.Write(line);
+
+                        line = Encoding.UTF8.GetString(buffer, i, bytesRead-i);
+
+                    } else {
+                        string chunk = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                        line += chunk;
+                    }
                 }
 
             } catch (Exception e) {
