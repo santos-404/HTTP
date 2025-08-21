@@ -8,7 +8,7 @@ namespace Http {
             try {
                 using var fs = new FileStream("message.txt", FileMode.Open, FileAccess.Read); 
                 foreach (var line in GetLinesStream(fs)) {
-                    Console.Write(line);
+                    Console.WriteLine(line);
                 }
 
             } catch (Exception e) {
@@ -25,13 +25,14 @@ namespace Http {
 
                 int i = Array.IndexOf(buffer, (byte)'\n', 0, bytesRead);
                 if (i != -1) {
-                    string start = Encoding.UTF8.GetString(buffer, 0, i);
-                    line += start;
+                    string startOfCurrentChunk = Encoding.UTF8.GetString(buffer, 0, i);
+                    line += startOfCurrentChunk;
 
                     yield return line;
 
-                    // Here I'm saving the '\n'. I'm not sure if this is a good idea yet.
-                    line = Encoding.UTF8.GetString(buffer, i, bytesRead-i);
+                    // Here we are skipping the '\n' byte
+                    string endOfCurrentChunk = Encoding.UTF8.GetString(buffer, i+1, bytesRead-i-1);
+                    line = endOfCurrentChunk;  // We reset the line to the reamining part of the chunk
 
                 } else {
                     string chunk = Encoding.UTF8.GetString(buffer, 0, bytesRead);
