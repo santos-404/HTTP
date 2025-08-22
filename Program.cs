@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using System.Net.Sockets;
+using System.Net;
 
 namespace Http {
 
@@ -6,9 +8,17 @@ namespace Http {
 
         private static void Main() {
             try {
-                using var fs = new FileStream("message.txt", FileMode.Open, FileAccess.Read); 
-                foreach (var line in GetLinesStream(fs)) {
-                    Console.WriteLine(line);
+                var listener = new TcpListener(IPAddress.Any, 42069);
+                listener.Start();
+                Console.WriteLine("Server started on port 42069...");
+
+                while (true) {
+                    var client = listener.AcceptTcpClient();
+                    using var networkStream = client.GetStream();
+
+                    foreach (var line in GetLinesStream(networkStream)) {
+                        Console.WriteLine(line);
+                    }
                 }
 
             } catch (Exception e) {
@@ -16,7 +26,7 @@ namespace Http {
             } 
         }
 
-        private static IEnumerable<string> GetLinesStream(FileStream stream) {
+        private static IEnumerable<string> GetLinesStream(NetworkStream stream) {
             byte[] buffer = new byte[8];
             int bytesRead;
             string line = "";
