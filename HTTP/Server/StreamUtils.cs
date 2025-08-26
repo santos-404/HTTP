@@ -3,6 +3,7 @@ using System.Text;
 
 namespace Http.Server;
 
+// I think this won't be useful anymore. This will be erased soon
 public static class StreamUtils {
 
     public static IEnumerable<string> GetLinesStream(NetworkStream stream) {

@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Sockets;
+using Http.Requests;
 
 namespace Http.Server;
 
@@ -27,26 +28,10 @@ public class TcpServer {
         } 
     }
 
-    public void HandleClient(TcpClient client)
-    {
+    public void HandleClient(TcpClient client) {
         using var networkStream = client.GetStream();
 
-        var lines = StreamUtils.GetLinesStream(networkStream).ToList();
-        var parts = lines[0].Split(' ');
-        var method = parts[0];
-        var path = parts[1];
+        Request request = new Request(networkStream);
 
-        if (method == "GET" && path == "/hello")
-        {
-            var response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nHello, World!";
-            Console.WriteLine(response);
-        }
-        else
-        {
-            var response = "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\nNot Found";
-            Console.WriteLine(response);
-        }
-        // Se que no comprueba si lo que no es correcto es el metodo o la ruta
     }
-
 }
